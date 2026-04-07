@@ -29,9 +29,18 @@ class SistemaModular:
         return r.json()
 
     def descargar(self, nombre):
-        r = requests.get(URL_REPO + nombre + ".py")
-        with open(MODULOS_DIR / f"{nombre}.py", "wb") as f:
-            f.write(r.content)
+     url = URL_REPO + nombre + ".py"
+     print("Descargando:", url)
+
+     r = requests.get(url)
+     print("Status:", r.status_code)
+
+     if r.status_code != 200:
+        print("❌ ERROR: archivo no encontrado en el repo")
+        return
+
+     with open(MODULOS_DIR / f"{nombre}.py", "wb") as f:
+        f.write(r.content)
 
     def actualizar(self):
         remoto = self.obtener_remoto()
