@@ -1,7 +1,8 @@
 import os
 import requests
+import json
 
-URL_REPO = "https://tu-repo.com/"  # puede ser GitHub raw
+URL_REPO = "https://raw.githubusercontent.com/cordobapereajulionahuel/modular/main/"
 
 def descargar_archivo(nombre):
     url = URL_REPO + nombre
@@ -10,13 +11,9 @@ def descargar_archivo(nombre):
         f.write(r.content)
 
 def actualizar_modulos():
-    import json
-
-    # versiones del servidor
     r = requests.get(URL_REPO + "versiones.json")
     versiones_remotas = r.json()
 
-    # versiones locales
     if os.path.exists("versiones.json"):
         with open("versiones.json") as f:
             versiones_locales = json.load(f)
@@ -32,11 +29,10 @@ def actualizar_modulos():
     with open("versiones.json", "w") as f:
         json.dump(versiones_locales, f)
 
-# ejecutar actualización
 actualizar_modulos()
 
-# usar módulos
-from modulos import suma, resta
+from modulos import sumar, Restar ,multiplicar
 
-print(suma.sumar(5, 3))
-print(resta.restar(10, 4))
+print(sumar(5, 3))
+print(Restar(10, 4))
+print(multiplicar(10, 4))
