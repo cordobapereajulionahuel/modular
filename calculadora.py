@@ -43,18 +43,21 @@ class SistemaModular:
         f.write(r.content)
 
     def actualizar(self):
-        remoto = self.obtener_remoto()
+     remoto = self.obtener_remoto()
+     print("Remoto:", remoto)
+     print("Local:", self.versiones_locales)
 
-        for modulo, version in remoto.items():
-            local = self.versiones_locales.get(modulo, 0)
+     for modulo, version in remoto.items():
+        local = self.versiones_locales.get(modulo, 0)
 
-            if version > local:
-                print(f"Actualizando {modulo}...")
-                self.descargar(modulo)
-                self.versiones_locales[modulo] = version
+        print(f"Comparando {modulo}: local={local}, remoto={version}")
 
-        self.guardar_local()
+        if version > local:
+            print(f"Actualizando {modulo}...")
+            self.descargar(modulo)
+            self.versiones_locales[modulo] = version
 
+     self.guardar_local()
     def cargar_modulos(self):
         for archivo in MODULOS_DIR.glob("*.py"):
             nombre = archivo.stem
